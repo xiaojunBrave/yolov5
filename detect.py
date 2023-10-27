@@ -35,6 +35,7 @@ import platform
 import sys
 from pathlib import Path
 import torch
+import conf as user_conf
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
@@ -93,7 +94,7 @@ def run(
         source = check_file(source)  # download
 
     # Directories
-    save_dir = increment_path(Path(project) / name, exist_ok=exist_ok)  # increment run
+    save_dir = increment_path(Path(project) / name, exist_ok=exist_ok) # increment run
     (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
 
     # Load model
@@ -254,7 +255,7 @@ def parse_opt(source):
     parser.add_argument('--view-img', action='store_true', help='show results')
     parser.add_argument('--save-txt', default=True,action='store_true', help='save results to *.txt')
     parser.add_argument('--save-csv', action='store_true', help='save results in CSV format')
-    parser.add_argument('--save-conf', action='store_true', help='save confidences in --save-txt labels')
+    parser.add_argument('--save-conf',default=True, action='store_true', help='save confidences in --save-txt labels')
     parser.add_argument('--save-crop', action='store_true', help='save cropped prediction boxes')
     parser.add_argument('--nosave', action='store_true', help='do not save images/videos')
     parser.add_argument('--classes', nargs='+', type=int, help='filter by class: --classes 0, or --classes 0 2 3')
