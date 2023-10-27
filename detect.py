@@ -51,6 +51,11 @@ from utils.general import (LOGGER, Profile, check_file, check_img_size, check_im
                            increment_path, non_max_suppression, print_args, scale_boxes, strip_optimizer, xyxy2xywh)
 from utils.torch_utils import select_device, smart_inference_mode
 
+# load model
+device_g = select_device('')
+model_g = DetectMultiBackend(ROOT / 'best.pt', device=device_g, dnn=False, data=ROOT / 'data/coco128.yaml', fp16=False)
+stride_g, names_g, pt_g = model_g.stride, model_g.names, model_g.pt
+imgsz_g = check_img_size([640,640], s=stride_g)  # check image size
 
 @smart_inference_mode()
 def run(
@@ -64,7 +69,7 @@ def run(
         device='',  # cuda device, i.e. 0 or 0,1,2,3 or cpu
         view_img=False,  # show results
         save_txt=False,  # save results to *.txt
-        save_csv=False,  # save results in CSV format
+        save_csv=True,  # save results in CSV format
         save_conf=False,  # save confidences in --save-txt labels
         save_crop=False,  # save cropped prediction boxes
         nosave=False,  # do not save images/videos
@@ -98,10 +103,9 @@ def run(
     (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
 
     # Load model
-    device = select_device(device)
-    model = DetectMultiBackend(weights, device=device, dnn=dnn, data=data, fp16=half)
+    model = model_g
     stride, names, pt = model.stride, model.names, model.pt
-    imgsz = check_img_size(imgsz, s=stride)  # check image size
+    imgsz = imgsz_g  # check image size
 
     # Dataloader
     bs = 1  # batch_size
