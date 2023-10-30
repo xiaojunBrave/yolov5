@@ -246,6 +246,7 @@ def run(
     return boxes
 
 
+
 def parse_opt(source):
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'best.pt', help='model path or triton URL')
@@ -288,5 +289,5 @@ def main(opt):
 
 
 if __name__ == '__main__':
-    opt = parse_opt()
+    opt = parse_opt(ROOT/'data/images')
     main(opt)
