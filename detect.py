@@ -53,7 +53,7 @@ from utils.torch_utils import select_device, smart_inference_mode
 
 # load model
 device_g = select_device('')
-model_g = DetectMultiBackend(ROOT / 'best.pt', device=device_g, dnn=False, data=ROOT / 'data/coco128.yaml', fp16=False)
+model_g = DetectMultiBackend(ROOT / 'best_12.pt', device=device_g, dnn=False, data=ROOT / 'data/coco128.yaml', fp16=False)
 stride_g, names_g, pt_g = model_g.stride, model_g.names, model_g.pt
 imgsz_g = check_img_size([640,640], s=stride_g)  # check image size
 
@@ -249,11 +249,12 @@ def run(
 
 def parse_opt(source):
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'best.pt', help='model path or triton URL')
+    # best_20
+    parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'best_t.pt', help='model path or triton URL')
     parser.add_argument('--source', type=str, default=source, help='file/dir/URL/glob/screen/0(webcam)')
     parser.add_argument('--data', type=str, default=ROOT / 'data/coco128.yaml', help='(optional) dataset.yaml path')
     parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[640], help='inference size h,w')
-    parser.add_argument('--conf-thres', type=float, default=0.5, help='confidence threshold')
+    parser.add_argument('--conf-thres', type=float, default=0.7, help='confidence threshold')
     parser.add_argument('--iou-thres', type=float, default=0.15, help='NMS IoU threshold')
     parser.add_argument('--max-det', type=int, default=1000, help='maximum detections per image')
     parser.add_argument('--device', default='', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
