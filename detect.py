@@ -52,8 +52,10 @@ from utils.general import (LOGGER, Profile, check_file, check_img_size, check_im
 from utils.torch_utils import select_device, smart_inference_mode
 
 # load model
+# best_12.pt 真花
+# best_35.pt 假花
 device_g = select_device('')
-model_g = DetectMultiBackend(ROOT / 'best_12.pt', device=device_g, dnn=False, data=ROOT / 'data/coco128.yaml', fp16=False)
+model_g = DetectMultiBackend(ROOT / 'best_35.pt', device=device_g, dnn=False, data=ROOT / 'data/coco128.yaml', fp16=False)
 stride_g, names_g, pt_g = model_g.stride, model_g.names, model_g.pt
 imgsz_g = check_img_size([640,640], s=stride_g)  # check image size
 
@@ -290,5 +292,5 @@ def main(opt):
 
 
 if __name__ == '__main__':
-    opt = parse_opt(ROOT/'data/images')
+    opt = parse_opt(ROOT/'data/flower')
     main(opt)
